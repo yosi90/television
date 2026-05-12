@@ -347,10 +347,15 @@ a.github:focus {
 }
 
 body {
-  background-image: url(../media/img/fondo.jpg);
-  background-size: 100% 20%;
+  position: relative;
+  min-height: 100vh;
+  background-image: url(../media/img/gotele.png);
+  background-repeat: repeat;
+  background-size: 50% 50%;
+  overflow-x: hidden;
 }
 body .container {
+  position: relative;
   height: 100vh;
 }
 body .container .row {
@@ -358,20 +363,92 @@ body .container .row {
   display: flex;
   justify-content: center;
   align-items: center;
+  pointer-events: none;
 }
 body .container div.row:first-of-type {
   align-items: flex-end;
+  z-index: 2;
   height: 87vh;
   padding-right: 10%;
   padding-left: 10%;
 }
 body .container div.row:last-of-type {
+  align-items: flex-start;
+  overflow: hidden;
+  z-index: 2;
   height: 13vh;
-  background-image: url(../media/img/mesa.webp);
-  border-top-right-radius: 10px;
-  border-top-left-radius: 10px;
+  background-color: #8f5528;
+  background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.24) 0, rgba(255, 255, 255, 0.08) 15%, rgba(0, 0, 0, 0) 34%), linear-gradient(90deg, rgba(70, 35, 14, 0.2), rgba(255, 224, 150, 0.08) 42%, rgba(53, 25, 9, 0.28)), url(../media/img/mesa.png);
+  background-position: center top;
+  background-repeat: repeat;
+  background-size: 100% 100%, 100% 100%, 420px auto;
+  border-top-right-radius: 14px;
+  border-top-left-radius: 14px;
+  box-shadow: inset 0 12px 14px rgba(255, 255, 255, 0.16), inset 0 -34px 32px rgba(55, 24, 8, 0.34), 0 -18px 34px rgba(0, 0, 0, 0.24);
   padding-right: 15%;
   padding-left: 15%;
+  padding-top: clamp(20px, 4vh, 38px);
+}
+body .container div.row:last-of-type::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  width: 100%;
+  height: 18px;
+  border-top-right-radius: 14px;
+  border-top-left-radius: 14px;
+  box-shadow: 0 8px 14px rgba(55, 24, 8, 0.28);
+  background: linear-gradient(180deg, rgba(255, 236, 185, 0.44), rgba(125, 67, 28, 0.08) 72%, rgba(0, 0, 0, 0.18));
+}
+body .container div.row:last-of-type::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  z-index: 0;
+  width: 100%;
+  height: 58%;
+  background-image: linear-gradient(180deg, rgba(73, 31, 10, 0.12), rgba(41, 18, 8, 0.36)), url(../media/img/mesa.png);
+  background-position: center bottom;
+  background-repeat: repeat;
+  background-size: 420px auto;
+  box-shadow: inset 0 14px 22px rgba(45, 20, 8, 0.38);
+}
+
+.decoracion {
+  position: fixed;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+}
+.decoracion:active {
+  cursor: grabbing;
+}
+
+#cuadroDecor {
+  top: 8vh;
+  left: clamp(18px, 5vw, 90px);
+  z-index: 1;
+  width: clamp(120px, 14vw, 220px);
+  aspect-ratio: 812/1024;
+  background-image: url(../media/img/cuadro.png);
+  filter: drop-shadow(10px 12px 10px rgba(0, 0, 0, 0.35));
+  transform: rotate(-1.2deg);
+}
+
+#plantaDecor {
+  right: clamp(-290px, -24vw, -170px);
+  bottom: clamp(-155px, -17vh, -80px);
+  z-index: 3;
+  width: clamp(340px, 34vw, 620px);
+  aspect-ratio: 400/600;
+  background-image: url(../media/img/planta.png);
+  filter: drop-shadow(18px 16px 14px rgba(0, 0, 0, 0.42));
 }
 
 #cuerpo {
@@ -387,13 +464,29 @@ body .container div.row:last-of-type {
   overflow: hidden;
   padding-left: 38px;
   z-index: 1;
+  pointer-events: auto;
 }
 #cuerpo #pantalla {
+  position: relative;
   border-radius: 25px;
   border: 5px double rgb(192, 192, 192);
   box-shadow: 0 0 10px rgb(0, 0, 0);
   background-color: black;
   padding: 20px 15px;
+}
+#cuerpo #pantalla.cambiando::after {
+  content: "";
+  position: absolute;
+  inset: 20px 15px;
+  z-index: 10;
+  border-radius: 30px/50%;
+  background-image: url(../media/img/noise.gif);
+  background-repeat: repeat;
+  background-position: center;
+  opacity: 0.5;
+  pointer-events: none;
+  -webkit-animation: ruido 0.93s;
+  animation: ruido 0.93s;
 }
 #cuerpo #pantalla #inicio {
   position: relative;
@@ -495,11 +588,16 @@ body .container div.row:last-of-type {
   -webkit-animation: fundido 0.6s ease-out;
   animation: fundido 0.6s ease-out;
 }
-#cuerpo #pantalla #cv {
-  background-image: url(../media/img/ruido.jpg);
+#cuerpo #pantalla .proyecto {
+  background-color: black;
 }
-#cuerpo #pantalla #portfolio {
-  background-image: url(../media/img/ruido.jpg);
+#cuerpo #pantalla .proyecto iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  border-radius: 30px/50%;
+  background-color: black;
 }
 #cuerpo #contenedorMenu {
   display: flex;
@@ -520,7 +618,9 @@ body .container div.row:last-of-type {
   width: 100%;
   height: 300px;
   border-radius: 10px;
-  background-color: gray;
+  background: black url(../media/img/fondodiales.png);
+  background-repeat: repeat;
+  background-size: 90% 90%;
   margin: 3px 3px 0 5px;
 }
 #cuerpo #contenedorMenu #menu .dial {
@@ -627,26 +727,60 @@ body .container div.row:last-of-type {
 
 #fondoTv {
   position: absolute;
-  bottom: 17vh;
-  left: 50%;
-  width: 600px;
-  height: calc(100vh - 6.5rem - 75px);
-  max-height: 750px;
-  border-top-right-radius: 210px;
-  border-bottom-right-radius: 90px 300px;
-  border: 3px solid rgb(214, 214, 214);
-  background: rgb(250, 250, 250);
-  background: linear-gradient(90deg, rgb(250, 250, 250) 90%, rgb(165, 165, 165) 98%);
+  bottom: calc(13vh + 12px);
+  left: calc(53% + 16px);
+  z-index: 0;
+  pointer-events: none;
+  width: 560px;
+  height: calc(100vh - 6.5rem - 70px);
+  max-height: 592px;
+  border-top-right-radius: 58% 46%;
+  border-bottom-right-radius: 50% 54%;
+  border-top-left-radius: 18px 42px;
+  border-bottom-left-radius: 18px 42px;
+  border: 2px solid rgb(47, 47, 47);
+  box-shadow: inset 18px 0 26px rgba(255, 255, 255, 0.08), inset -42px 0 46px rgba(0, 0, 0, 0.62), inset 0 -28px 35px rgba(0, 0, 0, 0.38), 35px 20px 45px rgba(0, 0, 0, 0.34), -7px 4px 14px rgba(0, 0, 0, 0.38);
+  background: radial-gradient(ellipse at 78% 49%, rgba(80, 80, 76, 0.96) 0%, rgba(59, 59, 56, 0.96) 38%, rgba(33, 33, 32, 0.98) 70%, rgb(17, 17, 17) 100%), linear-gradient(90deg, rgb(18, 18, 18) 0%, rgb(43, 43, 41) 28%, rgb(64, 64, 60) 68%, rgb(20, 20, 20) 100%);
+  overflow: hidden;
   transform: rotate(-0.5deg);
+  transform-origin: left center;
+}
+#fondoTv::before {
+  content: "";
+  position: absolute;
+  top: 21%;
+  right: 68px;
+  width: 245px;
+  height: 52%;
+  border-radius: 42% 54% 46% 42%/24% 46% 46% 24%;
+  border: 1px solid rgba(0, 0, 0, 0.72);
+  box-shadow: inset 14px 0 22px rgba(255, 255, 255, 0.04), inset -18px 0 30px rgba(0, 0, 0, 0.6), 0 0 0 6px rgba(255, 255, 255, 0.025), 16px 0 24px rgba(0, 0, 0, 0.32);
+  background-color: rgba(18, 18, 18, 0.38);
+  background-image: repeating-linear-gradient(90deg, rgba(0, 0, 0, 0.58) 0, rgba(0, 0, 0, 0.58) 5px, rgba(96, 96, 88, 0.2) 5px, rgba(96, 96, 88, 0.2) 8px, transparent 8px, transparent 15px), radial-gradient(ellipse at 46% 50%, rgba(105, 105, 98, 0.18) 0%, rgba(24, 24, 24, 0.6) 67%);
+}
+#fondoTv::after {
+  content: "";
+  position: absolute;
+  top: 6%;
+  right: 18px;
+  width: 42%;
+  height: 88%;
+  border-radius: 50%;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.1) 22%, rgba(255, 255, 255, 0.03) 46%, rgba(0, 0, 0, 0.48) 88%), radial-gradient(ellipse at 28% 50%, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0) 62%);
+  filter: blur(0.2px);
+  pointer-events: none;
 }
 
 #pie {
+  position: relative;
+  z-index: 1;
+  pointer-events: auto;
   height: 32px;
   width: 100%;
+  max-width: 950px;
   border-radius: 10px;
-  box-shadow: 15px -5px 0 rgb(36, 36, 36);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18), inset 0 -7px 10px rgba(0, 0, 0, 0.55), 0 7px 16px rgba(35, 16, 6, 0.32);
   transition: 1s;
-  z-index: 1;
 }
 #pie p {
   font-size: 11px;
